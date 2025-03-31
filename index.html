@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday!</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      background-color: #000;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      position: relative;
+      min-height: 100vh;
+      width: 100%;
+    }
+    
+    /* Background image with low opacity */
+    .background-image {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 60%;
+      height: 60%;
+     
+      background-image: url('1.jpg');
+      background-size: cover;
+      background-position: center;
+      /* opacity: 0.3; Low opacity */
+     
+    }
+    
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .content {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      width: 90%;
+      max-width: 600px;
+      padding: 20px;
+    }
+    
+    .heart-container {
+      position: relative;
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      aspect-ratio: 1;
+      margin: 0 auto 20px;
+      animation: pulse 1.5s infinite alternate;
+    }
+    
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      100% { transform: scale(1.05); }
+    }
+    
+    .heart-shape {
+      position: relative;
+      width: 200px;
+      height: 200px;
+      transform: rotate(45deg);
+      background-color: transparent;
+      margin: 30px auto;
+      overflow: hidden;
+    }
+    
+    .heart-shape:before,
+    .heart-shape:after {
+      content: '';
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background-color: #ff3b6c;
+    }
+    
+    .heart-shape:before {
+      top: -100px;
+      left: 0;
+    }
+    
+    .heart-shape:after {
+      top: 0;
+      left: -100px;
+    }
+    #heart { 
+      position: relative; 
+      width: 80px; 
+      height: 72px; 
+      margin: 0 auto;
+    } 
+
+    #heart:before, #heart:after { 
+      position: absolute; 
+      content: ""; 
+      left: 40px; 
+      top: 0; 
+      width: 40px; 
+      height: 64px; 
+      background: red; 
+      border-radius: 40px 40px 0 0; 
+      transform: rotate(-45deg); 
+      transform-origin: 0 100%; 
+    } 
+
+    #heart:after { 
+      left: 0; 
+      transform: rotate(45deg); 
+      transform-origin: 100% 100%; 
+    }
+    .heart-image-container {
+      position: absolute;
+      width: 200px; /* Adjusted to match heart shape */
+      height: 200px; /* Adjusted to match heart shape */
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-45deg);
+      z-index: 3;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    
+    .heart-image {
+      width: 160%;
+      height: 160%;
+      object-fit: cover;
+      object-position: center;
+      opacity: 0.85;
+      transform: scale(1.2);
+    }
+    
+    .birthday-text {
+      font-size: clamp(2em, 5vw, 3.5em);
+      font-weight: bold;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 0, 0, 0.8);
+      margin-bottom: 20px;
+      animation: colorChange 5s infinite;
+      position: absolute;
+      width: 100%;
+      top: 97%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 4;
+      color: white;
+      padding: 0 10px;
+    }
+    
+    @keyframes colorChange {
+      0% { color: #FF5252; }
+      20% { color: #FFEB3B; }
+      40% { color: #69F0AE; }
+      60% { color: #40C4FF; }
+      80% { color: #E040FB; }
+      100% { color: #FF5252; }
+    }
+    
+    .music-controls {
+      position: relative;
+      margin-top: 85px;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 10px 20px;
+      border-radius: 20px;
+      margin-bottom: 28px;
+    }
+    
+    button {
+      background: #FFA000;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 0 5px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s;
+    }
+    
+    button:hover {
+      background: #FFD54F;
+      transform: scale(1.05);
+    }
+    
+    .message {
+      margin-top: 16px;
+      font-size: clamp(1em, 3vw, 1.4em);
+      max-width: 100%;
+      padding: 15px 20px;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 15px;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      font-weight: 500;
+      letter-spacing: 1px;
+      line-height: 1.6;
+      position: relative;
+      top: 50px;
+    }
+
+    .message:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 25px rgba(0, 0, 0, 0.4);
+      background: rgba(0, 0, 0, 0.3);
+    }
+    .imge{
+      height: 300px;
+      width: 300px;
+      border-radius: 30px;
+      opacity: 0.5;
+    }
+
+    /* Media Queries for different screen sizes */
+    @media screen and (max-width: 480px) {
+      .content {
+        width: 95%;
+        padding: 10px;
+      }
+      
+      .heart-container {
+        max-width: 136px;
+        margin: -49px auto 15px;
+      }
+      
+      #heart {
+        width: 60px;
+        height: 54px;
+      }
+      
+      #heart:before, #heart:after {
+        left: 30px;
+        width: 30px;
+        height: 48px;
+        border-radius: 30px 30px 0 0;
+      }
+      
+      .message {
+        padding: 12px 15px;
+        top: 80px;
+      }
+    }
+    
+    @media screen and (max-width: 320px) {
+      .content {
+        width: 100%;
+      }
+      
+      .heart-container {
+        max-width: 200px;
+      }
+      
+      #heart {
+        width: 50px;
+        height: 45px;
+      }
+      
+      #heart:before, #heart:after {
+        left: 25px;
+        width: 25px;
+        height: 40px;
+        border-radius: 25px 25px 0 0;
+      }
+      
+      .message {
+        padding: 10px 12px;
+        top: 60px;
+      }
+    }
+    .next{
+      color: white;
+      text-decoration: none;
+      border: none;
+      padding: 9px 24px;
+      background-color: #FFA000;
+      border-radius: 20px;
+      
+    }
+  </style>
+</head>
+<body>
+  <!-- Background image with low opacity -->
+  <!-- <div class="background-image"></div> -->
+
+  <canvas id="fireworks"></canvas>
+  
+  <div class="content">
+    <div class="heart-container">
+      
+      <div class="birthday-text">HAPPY BIRTHDAY!</div>
+    </div>
+    
+    <div class="message">
+      Happy birthday to my amazing girlfriend 💞 💞 🥳🥳🎂Wishing you a day filled with joy, laughter, and everything you love.🤗 I'm so lucky to have you in my life🥹I hope your day is as wonderful as you are. uh make every day so special, and I hope today is just as incredible for you 💗🫶🏻 uh deserve all the love and joy in the world today. I'm so grateful to have you in my life💋💋💋 muaahhhh 💋💋🤗 i Luvvvv you moreee sweetheart 😘💋 happy badday gorgeous babyyy 🫦 🌹    </div>
+    
+    <div class="music-controls">
+      <button id="playMusic">Play Music</button>
+      <button id="pauseMusic">Pause Music</button>
+    </div>
+   <a class="next" href="page2.html">Next Page</a>
+  </div>
+  
+  <audio id="birthdaySong" loop>
+    <source src="https://cdnjs.cloudflare.com/ajax/libs/classlist/2017.0.1/happy-birthday-song.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  
+  
+  <script src="script.js"></script>
+</body>
+</html>
